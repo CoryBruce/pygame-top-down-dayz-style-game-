@@ -1,0 +1,10 @@
+Goal for game
+create a top down dayz style game
+later down the line maybe take the game multiplayer
+add different guns to game
+upgrade hud
+add items like guns, clips, ammo, cals, food, suppressors
+have a huge map that is a small town with multiple houses for loot
+every house will have a roof so player can see inside without going inside house
+    have a door object that player can open and go inside house and each room will have own door and be darken out
+    player will have to look at every room.
