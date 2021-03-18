@@ -119,8 +119,8 @@ class Game:
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
         self.items = pg.sprite.Group()
+        self.room_shadow = pg.sprite.Group()
         self.kills = 0
-
         # This is old method of drawing txt maps
         #for row, tiles in enumerate(self.map.data):
          #   for col, tile in enumerate(tiles):
@@ -142,11 +142,12 @@ class Game:
                 Mob(self, obj_center.x, obj_center.y)
             if tile_object.name in ['health']:
                 Item(self, obj_center, tile_object.name)
+            if tile_object.name in ['room']:
+                room_width, room_height = int(tile_object.width), int(tile_object.height)
+                Room_Shadow(self, obj_center, tile_object.name, room_width, room_height)
             if tile_object.name in ['roof']:#testing roof feature
                 roof_width, roof_height = int(tile_object.width), int(tile_object.height)
                 Roof(self, obj_center, tile_object.name, roof_width, roof_height)
-
-
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
         self.paused = False
@@ -179,14 +180,16 @@ class Game:
                 self.effects_sounds['health_up'].play() # this plays music from effects dictd
                 self.player.add_health(HEALTH_PACK_AMOUNT) # triggers func in player class to add more health
 
-
+        # player enters house takes off roof then shows dark rooms
         hits = pg.sprite.spritecollide(self.player, self.items, False)
         for hit in hits:
             if hit.type == 'roof':
+                hit.image.set_alpha(0)
 
-                hit.image.set_alpha(10)
-
-
+        hits = pg.sprite.spritecollide(self.player, self.room_shadow, False)
+        for hit in hits:
+            if hit.type == 'room':
+                hit.image.set_alpha(0)
 
 
         # mobs hit player
